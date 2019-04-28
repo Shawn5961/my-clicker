@@ -6,7 +6,7 @@ class Clicker extends React.Component {
     super();
     this.state = {
       coins: 0,
-      coinsPerSecond: 1000,
+      coinsPerSecond: 0,
       coinsToAdd: 1
     };
     
@@ -23,37 +23,34 @@ class Clicker extends React.Component {
 
   addCoinsPerSecond() {
     this.setState(state => ({
-      coinsPerSecond: state.coinsPerSecond / 2
+      coinsPerSecond: state.coinsPerSecond + 1
     }));
   }
 
   addCoin() {
     this.setState(state => ({
-      coins: this.coins + this.coinsToAdd
+      coins: state.coins + state.coinsToAdd
     }));
   }
 
-  coinClick() {
+  addCoinInterval() {
     let that = this;
-    {that.addCoin();}
+    for (let i = 0; i < this.state.coinsPerSecond; i++){
+      this.addCoin();
+    }
+    setTimeout(() => {that.addCoinInterval(); }, 1000)
   };
 
-//  addCoinInterval() {
-//    let that = this;
-//    this.addCoin();
-//    setTimeout(() => {that.addCoinInterval(); }, this.state.coinsPerSecond)
-//  };
-
-//  componentDidMount() {
-//    this.addCoinInterval()
-//  };
+  componentDidMount() {
+    this.addCoinInterval()
+  };
 
   render() {
     return (
       <div>
         You have {this.state.coins} coins.
         <br />
-        <button onClick={this.coinClick}>
+        <button onClick={this.addCoin}>
           Add {this.state.coinsToAdd} coins
         </button>
 
@@ -67,6 +64,8 @@ class Clicker extends React.Component {
 
         <br />
           Coins to add = {this.state.coinsToAdd}
+        <br />
+          Coins per second = {this.state.coinsPerSecond}
       </div>
     );
   }
