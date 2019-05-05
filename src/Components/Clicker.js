@@ -43,15 +43,13 @@ class Clicker extends React.Component {
 
   addCoinsPerSecond() {
     this.setState(state => ({
-      coins: state.coins + state.coinsToAdd
+      coins: state.coins + state.coinsPerSecondToAdd
     }));
   }
 
   addCoinInterval() {
     let that = this;
-    for (let i = 0; i < this.state.coinsPerSecondToAdd; i++){
-      this.addCoinsPerSecond();
-    }
+    this.addCoinsPerSecond();
     setTimeout(() => {that.addCoinInterval(); }, 1000)
   };
 
